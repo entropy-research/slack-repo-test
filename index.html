@@ -3,20 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
+    <title>Penguin Paradise</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <h1>Snake Game</h1>
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-        <div class="score-container">
-            <p>Score: <span id="score">0</span></p>
+    <div class="penguin-container">
+        <header>
+            <h1>🐧 Penguin Paradise 🐧</h1>
+            <p class="tagline">The ultimate destination for penguin enthusiasts!</p>
+        </header>
+        
+        <section class="hero">
+            <div class="penguin-image">
+                <img id="mainPenguin" src="https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Adorable Penguin">
+            </div>
+            <div class="welcome-text">
+                <h2>Welcome to Penguin Paradise!</h2>
+                <p>Discover the wonderful world of penguins - from the majestic Emperor Penguin to the adorable Little Blue Penguin.</p>
+                <button id="penguinBtn">Show Me More Penguins!</button>
+            </div>
+        </section>
+        
+        <section class="penguin-facts">
+            <h2>Amazing Penguin Facts</h2>
+            <div class="facts-container">
+                <div class="fact-card">
+                    <h3>Emperor Penguins</h3>
+                    <p>The largest penguin species, standing up to 4 feet tall and weighing up to 88 pounds!</p>
+                </div>
+                <div class="fact-card">
+                    <h3>Penguin Diet</h3>
+                    <p>Penguins primarily eat fish, squid, and krill, consuming up to 2 pounds of food per day.</p>
+                </div>
+                <div class="fact-card">
+                    <h3>Swimming Speed</h3>
+                    <p>Penguins can swim at speeds up to 22 mph, making them incredibly fast underwater!</p>
+                </div>
         </div>
-        <div class="controls">
-            <button id="startBtn">Start Game</button>
-            <p class="instructions">Use arrow keys to move the snake</p>
+        </section>
+        
+        <section class="penguin-gallery">
+            <h2>Penguin Gallery</h2>
+            <div class="gallery-container" id="penguinGallery">
+                <!-- Penguin images will be added here via JavaScript -->
         </div>
+        </section>
+        
+        <footer>
+            <p>🐧 Penguin Paradise - Where Every Day is Penguin Day! 🐧</p>
+            <p class="copyright">© 2023 Penguin Enthusiasts</p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>

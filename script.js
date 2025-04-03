@@ -1,199 +1,180 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get canvas and context
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    // Penguin image URLs for the gallery
+    const penguinImages = [
+        {
+            url: "https://images.unsplash.com/photo-1598439210625-358c27a14b9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            caption: "Emperor Penguins in Antarctica"
+        },
+        {
+            url: "https://images.unsplash.com/photo-1517783999520-f068d7431a60?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            caption: "Adelie Penguin on Ice"
+        },
+        {
+            url: "https://images.unsplash.com/photo-1549093497-93a18821d217?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            caption: "King Penguin Colony"
+        },
+        {
+            url: "https://images.unsplash.com/photo-1596979240348-7c1b780c9a3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            caption: "Gentoo Penguin Jumping"
+        },
+        {
+            url: "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            caption: "Little Blue Penguin"
+        },
+        {
+            url: "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            caption: "Penguin Family"
+        }
+    ];
     
-    // Game variables
-    const gridSize = 20;
-    const tileCount = canvas.width / gridSize;
-    let snake = [];
-    let food = {};
-    let dx = gridSize; // horizontal velocity
-    let dy = 0; // vertical velocity
-    let score = 0;
-    let gameRunning = false;
-    let gameSpeed = 150; // milliseconds
-    let gameLoop;
+    // More penguin images for the "Show Me More Penguins" button
+    const morePenguinImages = [
+        "https://images.unsplash.com/photo-1598439210625-358c27a14b9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1596979240348-7c1b780c9a3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    ];
+
+    // Penguin facts for random display
+    const penguinFacts = [
+        "There are 18 species of penguins in the world.",
+        "The Emperor Penguin is the tallest of all penguin species, reaching heights of up to 4 feet tall.",
+        "Penguins can drink sea water because they have a special gland that filters out the salt.",
+        "The smallest penguin species is the Little Blue Penguin, standing just 16 inches tall.",
+        "Penguins' distinctive black and white coloring is a form of camouflage called countershading.",
+        "Some penguin species can leap 6-9 feet out of the water when swimming.",
+        "Penguins spend up to 75% of their lives in the water.",
+        "The Emperor Penguin can dive deeper than any other bird, reaching depths of over 1,800 feet.",
+        "Penguins have a special gland that produces oil to make their feathers waterproof.",
+        "Most penguin species mate for life."
+    ];
     
     // DOM elements
-    const scoreDisplay = document.getElementById('score');
-    const startBtn = document.getElementById('startBtn');
+    const penguinBtn = document.getElementById('penguinBtn');
+    const mainPenguin = document.getElementById('mainPenguin');
+    const penguinGallery = document.getElementById('penguinGallery');
     
-    // Initialize game
-    function initGame() {
-        // Reset snake
-        snake = [
-            {x: 5 * gridSize, y: 10 * gridSize},
-            {x: 4 * gridSize, y: 10 * gridSize},
-            {x: 3 * gridSize, y: 10 * gridSize}
-        ];
+    // Initialize the gallery
+    function initGallery() {
+        penguinGallery.innerHTML = '';
         
-        // Reset direction
-        dx = gridSize;
-        dy = 0;
-        
-        // Reset score
-        score = 0;
-        scoreDisplay.textContent = score;
-        
-        // Generate food
-        generateFood();
-        
-        // Clear previous game loop if any
-        if (gameLoop) clearInterval(gameLoop);
-    }
-    
-    // Generate random food position
-    function generateFood() {
-        food = {
-            x: Math.floor(Math.random() * tileCount) * gridSize,
-            y: Math.floor(Math.random() * tileCount) * gridSize
-        };
-        
-        // Make sure food doesn't spawn on snake
-        for (let i = 0; i < snake.length; i++) {
-            if (food.x === snake[i].x && food.y === snake[i].y) {
-                generateFood();
-                break;
-            }
-        }
-    }
-    
-    // Draw everything
-    function draw() {
-        // Clear canvas
-        ctx.fillStyle = '#222';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw snake
-        ctx.fillStyle = '#4CAF50';
-        for (let i = 0; i < snake.length; i++) {
-            ctx.fillRect(snake[i].x, snake[i].y, gridSize, gridSize);
+        penguinImages.forEach(penguin => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
             
-            // Draw border around snake segments
-            ctx.strokeStyle = '#45a049';
-            ctx.strokeRect(snake[i].x, snake[i].y, gridSize, gridSize);
-        }
-        
-        // Draw food
-        ctx.fillStyle = '#FF5252';
-        ctx.fillRect(food.x, food.y, gridSize, gridSize);
-        ctx.strokeStyle = '#E53935';
-        ctx.strokeRect(food.x, food.y, gridSize, gridSize);
-    }
-    
-    // Update game state
-    function update() {
-        // Create new head
-        const head = {
-            x: snake[0].x + dx,
-            y: snake[0].y + dy
-        };
-        
-        // Check for wall collision
-        if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
-            gameOver();
-            return;
-        }
-        
-        // Check for self collision
-        for (let i = 0; i < snake.length; i++) {
-            if (head.x === snake[i].x && head.y === snake[i].y) {
-                gameOver();
-                return;
-            }
-        }
-        
-        // Add new head
-        snake.unshift(head);
-        
-        // Check for food collision
-        if (head.x === food.x && head.y === food.y) {
-            // Increase score
-            score++;
-            scoreDisplay.textContent = score;
+            const img = document.createElement('img');
+            img.src = penguin.url;
+            img.alt = penguin.caption;
             
-            // Generate new food
-            generateFood();
+            const caption = document.createElement('div');
+            caption.className = 'gallery-caption';
+            caption.textContent = penguin.caption;
             
-            // Increase speed slightly
-            if (gameSpeed > 50) {
-                clearInterval(gameLoop);
-                gameSpeed -= 5;
-                gameLoop = setInterval(gameStep, gameSpeed);
+            galleryItem.appendChild(img);
+            galleryItem.appendChild(caption);
+            penguinGallery.appendChild(galleryItem);
+        
+            // Add click event to show a random penguin fact
+            galleryItem.addEventListener('click', showRandomPenguinFact);
+        });
+    }
+    
+    // Show a random penguin fact when a gallery image is clicked
+    function showRandomPenguinFact() {
+        const randomFact = penguinFacts[Math.floor(Math.random() * penguinFacts.length)];
+        
+        // Create and show a fact popup
+        const factPopup = document.createElement('div');
+        factPopup.className = 'fact-popup';
+        factPopup.innerHTML = `
+            <div class="fact-popup-content">
+                <h3>🐧 Penguin Fact! 🐧</h3>
+                <p>${randomFact}</p>
+                <button class="close-popup">Close</button>
+            </div>
+        `;
+        
+        document.body.appendChild(factPopup);
+            
+        // Style the popup
+        const popupStyle = document.createElement('style');
+        popupStyle.textContent = `
+            .fact-popup {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
             }
-        } else {
-            // Remove tail if no food eaten
-            snake.pop();
-        }
+            .fact-popup-content {
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                max-width: 400px;
+                text-align: center;
+            }
+            .close-popup {
+                margin-top: 15px;
+            }
+        `;
+        document.head.appendChild(popupStyle);
+        
+        // Add close functionality
+        const closeBtn = factPopup.querySelector('.close-popup');
+        closeBtn.addEventListener('click', () => {
+            document.body.removeChild(factPopup);
+        });
     }
-    
-    // Game step function
-    function gameStep() {
-        update();
-        draw();
-    }
-    
-    // Game over function
-    function gameOver() {
-        clearInterval(gameLoop);
-        gameRunning = false;
-        startBtn.textContent = 'Restart Game';
+
+    // Change the main penguin image when button is clicked
+    let currentImageIndex = 0;
+    penguinBtn.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex + 1) % morePenguinImages.length;
+        mainPenguin.src = morePenguinImages[currentImageIndex];
         
-        // Display game over message
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Add a fun animation
+        mainPenguin.style.transition = 'transform 0.5s ease';
+        mainPenguin.style.transform = 'scale(1.1)';
         
-        ctx.font = '30px Arial';
-        ctx.fillStyle = 'white';
-        ctx.textAlign = 'center';
-        ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 15);
+        setTimeout(() => {
+            mainPenguin.style.transform = 'scale(1)';
+        }, 500);
         
-        ctx.font = '20px Arial';
-        ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 20);
-    }
-    
-    // Start/restart game
-    startBtn.addEventListener('click', () => {
-        initGame();
-        gameRunning = true;
-        startBtn.textContent = 'Game Running';
-        gameLoop = setInterval(gameStep, gameSpeed);
-    });
-    
-    // Keyboard controls
-    document.addEventListener('keydown', (event) => {
-        if (!gameRunning) return;
-        
-        // Prevent reverse direction (snake can't turn 180 degrees)
-        switch (event.key) {
-            case 'ArrowUp':
-                if (dy === 0) {
-                    dx = 0;
-                    dy = -gridSize;
-                }
-                break;
-            case 'ArrowDown':
-                if (dy === 0) {
-                    dx = 0;
-                    dy = gridSize;
-                }
-                break;
-            case 'ArrowLeft':
-                if (dx === 0) {
-                    dx = -gridSize;
-                    dy = 0;
-                }
-                break;
-            case 'ArrowRight':
-                if (dx === 0) {
-                    dx = gridSize;
-                    dy = 0;
-                }
-                break;
+        // Change button text occasionally
+        if (Math.random() > 0.7) {
+            const buttonTexts = [
+                "More Penguins Please!",
+                "I Love Penguins!",
+                "Another Penguin!",
+                "Penguins Are Awesome!",
+                "Show Me More!"
+            ];
+            penguinBtn.textContent = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
         }
     });
     
-    // Initial draw
-    draw();
+    // Add a "waddle" effect to the penguin image on hover
+    mainPenguin.addEventListener('mouseover', () => {
+        let waddleCount = 0;
+        const waddleInterval = setInterval(() => {
+            mainPenguin.style.transform = waddleCount % 2 === 0 ? 'rotate(2deg)' : 'rotate(-2deg)';
+            waddleCount++;
+            
+            if (waddleCount > 6) {
+                clearInterval(waddleInterval);
+                mainPenguin.style.transform = 'rotate(0deg)';
+            }
+        }, 200);
+    });
+
+    // Initialize the gallery when the page loads
+    initGallery();
+    
+    // Add a fun welcome message
+    console.log("🐧 Welcome to Penguin Paradise! 🐧");
 });
