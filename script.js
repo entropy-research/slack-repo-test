@@ -10,6 +10,15 @@ let gameRunning = false;
 let score = 0;
 let highScore = localStorage.getItem('snakeHighScore') || 0;
 
+// Food types with different values and colors
+const foodTypes = [
+    { type: 'apple', value: 10, color: '#F44336', radius: 0.5, stem: true },
+    { type: 'banana', value: 15, color: '#FFEB3B', radius: 0.4, stem: false },
+    { type: 'cherry', value: 20, color: '#E91E63', radius: 0.4, stem: true },
+    { type: 'orange', value: 25, color: '#FF9800', radius: 0.5, stem: false },
+    { type: 'strawberry', value: 30, color: '#E91E63', radius: 0.45, stem: true }
+];
+
 // Initialize the game
 window.onload = function() {
     canvas = document.getElementById('gameCanvas');
@@ -69,6 +78,57 @@ function setupTouchEvents() {
             e.preventDefault(); // Prevent default touch behavior
         });
     });
+    
+    // Add swipe gestures for the canvas
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    
+    canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, false);
+    
+    canvas.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }, false);
+    
+    function handleSwipe() {
+        const minSwipeDistance = 30; // Minimum distance to consider as swipe
+        
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        
+        // Determine if the swipe was horizontal or vertical
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Horizontal swipe
+            if (Math.abs(deltaX) > minSwipeDistance) {
+                if (deltaX > 0 && direction !== 'left') {
+                    // Right swipe
+                    newDirection = 'right';
+                } else if (deltaX < 0 && direction !== 'right') {
+                    // Left swipe
+                    newDirection = 'left';
+                }
+            }
+        } else {
+            // Vertical swipe
+            if (Math.abs(deltaY) > minSwipeDistance) {
+                if (deltaY > 0 && direction !== 'up') {
+                    // Down swipe
+                    newDirection = 'down';
+                } else if (deltaY < 0 && direction !== 'down') {
+                    // Up swipe
+                    newDirection = 'up';
+                }
+            }
+        }
+    }
 }
 
 // Start the game
@@ -146,8 +206,8 @@ function moveSnake() {
     
     // Check if snake ate food
     if (head.x === food.x && head.y === food.y) {
-        // Increase score
-        score += 10;
+        // Increase score based on food value
+        score += food.value;
         document.getElementById('score').textContent = score;
         
         // Update high score if needed
@@ -243,7 +303,14 @@ function generateFood() {
         }
     } while (foodOnSnake);
     
-    food = foodPosition;
+    // Randomly select a food type
+    const randomFoodType = foodTypes[Math.floor(Math.random() * foodTypes.length)];
+    
+    // Store both position and food type information
+    food = {
+        ...foodPosition,
+        ...randomFoodType
+    };
 }
 
 // Draw everything
@@ -323,21 +390,47 @@ function drawGame() {
         }
     }
     
-    // Draw food (apple)
-    ctx.fillStyle = '#F44336'; // Red for apple
+    // Draw food based on its type
+    ctx.fillStyle = food.color;
     ctx.beginPath();
-    ctx.arc(food.x + gridSize/2, food.y + gridSize/2, gridSize/2 - 2, 0, Math.PI * 2);
+    ctx.arc(food.x + gridSize/2, food.y + gridSize/2, gridSize * food.radius, 0, Math.PI * 2);
     ctx.fill();
     
-    // Draw apple stem
+    // Draw stem if the food type has one
+    if (food.stem) {
     ctx.fillStyle = '#795548'; // Brown for stem
     ctx.fillRect(food.x + gridSize/2 - 1, food.y + 2, 2, 4);
         
-    // Optional: Draw leaf
+        // Draw leaf
     ctx.fillStyle = '#8BC34A'; // Green for leaf
     ctx.beginPath();
     ctx.ellipse(food.x + gridSize/2 + 3, food.y + 4, 3, 2, Math.PI/4, 0, Math.PI * 2);
     ctx.fill();
+    }
+    
+    // Special drawing for banana
+    if (food.type === 'banana') {
+        ctx.strokeStyle = '#5D4037';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(food.x + gridSize/2, food.y + gridSize/2, gridSize * 0.3, Math.PI * 0.25, Math.PI * 1.25);
+        ctx.stroke();
+    }
+    
+    // Special drawing for strawberry
+    if (food.type === 'strawberry') {
+        // Add seeds
+        ctx.fillStyle = '#FFF9C4';
+        for (let i = 0; i < 5; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * gridSize * 0.3;
+            const seedX = food.x + gridSize/2 + Math.cos(angle) * distance;
+            const seedY = food.y + gridSize/2 + Math.sin(angle) * distance;
+            ctx.beginPath();
+            ctx.arc(seedX, seedY, 1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
     
     // Draw grid (optional, for debugging)
     // drawGrid();
