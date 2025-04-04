@@ -207,24 +207,50 @@ function drawGame() {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Draw snake
-    ctx.fillStyle = '#4CAF50';
-    for (let segment of snake) {
+    // Draw snake with arctic blue colors
+    for (let i = 0; i < snake.length; i++) {
+        // Gradient from light to darker blue for the snake body
+        const segment = snake[i];
+        if (i === 0) {
+            // Head is slightly different color
+            ctx.fillStyle = '#1976D2'; // Darker blue for head
+        } else {
+            // Body segments alternate between two blue shades
+            ctx.fillStyle = i % 2 === 0 ? '#2196F3' : '#64B5F6';
+        }
+        
         ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
         
         // Add border to snake segments
-        ctx.strokeStyle = '#2E7D32';
+        ctx.strokeStyle = '#0D47A1'; // Dark blue border
         ctx.strokeRect(segment.x, segment.y, gridSize, gridSize);
     }
     
-    // Draw food
-    ctx.fillStyle = '#FF5722';
+    // Draw food (arctic fish)
+    ctx.fillStyle = '#E91E63'; // Pinkish color for arctic fish/seal
     ctx.fillRect(food.x, food.y, gridSize, gridSize);
-    ctx.strokeStyle = '#BF360C';
+    ctx.strokeStyle = '#C2185B'; // Darker border
     ctx.strokeRect(food.x, food.y, gridSize, gridSize);
+    
+    // Optional: Draw snowflakes (randomly)
+    if (Math.random() < 0.05) { // 5% chance each frame
+        drawSnowflake();
+    }
     
     // Draw grid (optional, for debugging)
     // drawGrid();
+}
+
+// Draw a random snowflake
+function drawSnowflake() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const size = Math.random() * 3 + 1;
+    
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
 }
 
 // Draw grid lines (optional, for debugging)
