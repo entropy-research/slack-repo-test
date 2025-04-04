@@ -1,118 +1,150 @@
+diff --git a/index.html b/index.html
+index cc81ac2..890c66c 100644
+--- a/index.html
++++ b/index.html
+@@ -21,6 +21,20 @@
+             
+             <canvas id="gameCanvas" width="400" height="400"></canvas>
+             
++            <!-- Mobile Controls -->
++            <div class="mobile-controls">
++                <div class="control-row">
++                    <button id="upBtn" class="direction-btn">↑</button>
++                </div>
++                <div class="control-row">
++                    <button id="leftBtn" class="direction-btn">←</button>
++                    <button id="rightBtn" class="direction-btn">→</button>
++                </div>
++                <div class="control-row">
++                    <button id="downBtn" class="direction-btn">↓</button>
++                </div>
++            </div>
++            
+             <div class="controls">
+                 <button id="startBtn">Start Game</button>
+                 <button id="resetBtn">Reset Game</button>
 diff --git a/script.js b/script.js
-index c13d10b..e99f090 100644
+index e99f090..1ca972e 100644
 --- a/script.js
 +++ b/script.js
-@@ -207,23 +207,13 @@ function drawGame() {
-     // Clear canvas
-     ctx.clearRect(0, 0, canvas.width, canvas.height);
+@@ -20,6 +20,23 @@ window.onload = function() {
+     document.getElementById('resetBtn').addEventListener('click', resetGame);
+     document.addEventListener('keydown', changeDirection);
      
--    // Draw snake with arctic blue colors
-+    // Draw snake as penguins
-     for (let i = 0; i < snake.length; i++) {
--        // Gradient from light to darker blue for the snake body
-         const segment = snake[i];
--        if (i === 0) {
--            // Head is slightly different color
--            ctx.fillStyle = '#1976D2'; // Darker blue for head
--        } else {
--            // Body segments alternate between two blue shades
--            ctx.fillStyle = i % 2 === 0 ? '#2196F3' : '#64B5F6';
--        }
--        
--        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
-+        const isHead = i === 0;
-         
--        // Add border to snake segments
--        ctx.strokeStyle = '#0D47A1'; // Dark blue border
--        ctx.strokeRect(segment.x, segment.y, gridSize, gridSize);
-+        // Draw penguin for each segment
-+        drawPenguin(segment.x, segment.y, gridSize, isHead);
-     }
++    // Set up mobile control buttons
++    document.getElementById('upBtn').addEventListener('click', function() {
++        handleDirectionButtonClick(38); // Up arrow key code
++    });
++    document.getElementById('downBtn').addEventListener('click', function() {
++        handleDirectionButtonClick(40); // Down arrow key code
++    });
++    document.getElementById('leftBtn').addEventListener('click', function() {
++        handleDirectionButtonClick(37); // Left arrow key code
++    });
++    document.getElementById('rightBtn').addEventListener('click', function() {
++        handleDirectionButtonClick(39); // Right arrow key code
++    });
++    
++    // Add touch events for mobile
++    setupTouchEvents();
++    
+     // Display high score from local storage
+     document.getElementById('highScore').textContent = highScore;
      
-     // Draw food (arctic fish)
-@@ -253,6 +243,85 @@ function drawSnowflake() {
-     ctx.fill();
- }
+@@ -27,6 +44,33 @@ window.onload = function() {
+     drawGame();
+ };
  
-+// Draw a penguin at the specified coordinates
-+function drawPenguin(x, y, size, isHead) {
-+    // Center point of the cell
-+    const centerX = x + size / 2;
-+    const centerY = y + size / 2;
++// Handle direction button clicks by simulating keyboard events
++function handleDirectionButtonClick(keyCode) {
++    // Create a synthetic keyboard event
++    const event = {
++        keyCode: keyCode
++    };
 +    
-+    // Scale factor (slightly smaller than the grid to have some padding)
-+    const scale = size * 0.9;
-+    
-+    // Body (oval)
-+    ctx.fillStyle = '#000000'; // Black for penguin body
-+    ctx.beginPath();
-+    ctx.ellipse(centerX, centerY, scale/2, scale/2.5, 0, 0, Math.PI * 2);
-+    ctx.fill();
-+    
-+    // White belly
-+    ctx.fillStyle = '#FFFFFF';
-+    ctx.beginPath();
-+    ctx.ellipse(centerX, centerY + scale/10, scale/3, scale/3, 0, 0, Math.PI * 2);
-+    ctx.fill();
-+    
-+    if (isHead) {
-+        // Eyes (only on head)
-+        const eyeSize = scale/8;
-+        
-+        // Left eye
-+        ctx.fillStyle = '#FFFFFF';
-+        ctx.beginPath();
-+        ctx.arc(centerX - scale/4, centerY - scale/8, eyeSize, 0, Math.PI * 2);
-+        ctx.fill();
-+        
-+        // Left pupil
-+        ctx.fillStyle = '#000000';
-+        ctx.beginPath();
-+        ctx.arc(centerX - scale/4, centerY - scale/8, eyeSize/2, 0, Math.PI * 2);
-+        ctx.fill();
-+        
-+        // Right eye
-+        ctx.fillStyle = '#FFFFFF';
-+        ctx.beginPath();
-+        ctx.arc(centerX + scale/4, centerY - scale/8, eyeSize, 0, Math.PI * 2);
-+        ctx.fill();
-+        
-+        // Right pupil
-+        ctx.fillStyle = '#000000';
-+        ctx.beginPath();
-+        ctx.arc(centerX + scale/4, centerY - scale/8, eyeSize/2, 0, Math.PI * 2);
-+        ctx.fill();
-+        
-+        // Orange beak
-+        ctx.fillStyle = '#FF9800';
-+        ctx.beginPath();
-+        ctx.moveTo(centerX - scale/6, centerY + scale/8);
-+        ctx.lineTo(centerX + scale/6, centerY + scale/8);
-+        ctx.lineTo(centerX, centerY + scale/4);
-+        ctx.closePath();
-+        ctx.fill();
-+    }
-+    
-+    // Flippers (small triangles on the sides)
-+    ctx.fillStyle = '#000000';
-+    
-+    // Left flipper
-+    ctx.beginPath();
-+    ctx.moveTo(centerX - scale/2, centerY);
-+    ctx.lineTo(centerX - scale/1.5, centerY);
-+    ctx.lineTo(centerX - scale/2, centerY + scale/4);
-+    ctx.closePath();
-+    ctx.fill();
-+    
-+    // Right flipper
-+    ctx.beginPath();
-+    ctx.moveTo(centerX + scale/2, centerY);
-+    ctx.lineTo(centerX + scale/1.5, centerY);
-+    ctx.lineTo(centerX + scale/2, centerY + scale/4);
-+    ctx.closePath();
-+    ctx.fill();
++    // Call the existing changeDirection function
++    changeDirection(event);
 +}
 +
- // Draw grid lines (optional, for debugging)
- function drawGrid() {
-     ctx.strokeStyle = '#222';
++// Setup touch events for mobile buttons to prevent scrolling and improve responsiveness
++function setupTouchEvents() {
++    const directionButtons = document.querySelectorAll('.direction-btn');
++    
++    directionButtons.forEach(button => {
++        button.addEventListener('touchstart', function(e) {
++            e.preventDefault(); // Prevent default touch behavior
++            this.click(); // Trigger the click event
++        });
++        
++        button.addEventListener('touchend', function(e) {
++            e.preventDefault(); // Prevent default touch behavior
++        });
++    });
++}
++
+ // Start the game
+ function startGame() {
+     if (gameRunning) return;
+diff --git a/style.css b/style.css
+index 9198d12..e270dbc 100644
+--- a/style.css
++++ b/style.css
+@@ -110,6 +110,43 @@ button:active {
+     color: #1976D2; /* Darker blue for list items */
+ }
+ 
++/* Mobile Controls */
++.mobile-controls {
++    display: none; /* Hidden by default, shown on mobile */
++    flex-direction: column;
++    align-items: center;
++    margin: 15px 0;
++    width: 180px;
++}
++
++.control-row {
++    display: flex;
++    justify-content: center;
++    gap: 10px;
++    margin: 5px 0;
++}
++
++.direction-btn {
++    width: 60px;
++    height: 60px;
++    font-size: 24px;
++    background-color: #2196F3;
++    color: white;
++    border: none;
++    border-radius: 50%;
++    cursor: pointer;
++    display: flex;
++    justify-content: center;
++    align-items: center;
++    user-select: none;
++    -webkit-tap-highlight-color: transparent;
++}
++
++.direction-btn:active {
++    background-color: #1565C0;
++    transform: scale(0.95);
++}
++
+ @media (max-width: 600px) {
+     #gameCanvas {
+         width: 300px;
+@@ -119,4 +156,13 @@ button:active {
+     .score-board {
+         width: 300px;
+     }
++    
++    .mobile-controls {
++        display: flex; /* Show on mobile */
++    }
++    
++    .instructions ul {
++        flex-direction: column;
++        gap: 5px;
++    }
+ }
+\ No newline at end of file

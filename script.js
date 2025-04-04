@@ -20,12 +20,56 @@ window.onload = function() {
     document.getElementById('resetBtn').addEventListener('click', resetGame);
     document.addEventListener('keydown', changeDirection);
     
+    // Set up mobile control buttons
+    document.getElementById('upBtn').addEventListener('click', function() {
+        handleDirectionButtonClick(38); // Up arrow key code
+    });
+    document.getElementById('downBtn').addEventListener('click', function() {
+        handleDirectionButtonClick(40); // Down arrow key code
+    });
+    document.getElementById('leftBtn').addEventListener('click', function() {
+        handleDirectionButtonClick(37); // Left arrow key code
+    });
+    document.getElementById('rightBtn').addEventListener('click', function() {
+        handleDirectionButtonClick(39); // Right arrow key code
+    });
+    
+    // Add touch events for mobile
+    setupTouchEvents();
+    
     // Display high score from local storage
     document.getElementById('highScore').textContent = highScore;
     
     // Draw initial game state
     drawGame();
 };
+
+// Handle direction button clicks by simulating keyboard events
+function handleDirectionButtonClick(keyCode) {
+    // Create a synthetic keyboard event
+    const event = {
+        keyCode: keyCode
+    };
+    
+    // Call the existing changeDirection function
+    changeDirection(event);
+}
+
+// Setup touch events for mobile buttons to prevent scrolling and improve responsiveness
+function setupTouchEvents() {
+    const directionButtons = document.querySelectorAll('.direction-btn');
+    
+    directionButtons.forEach(button => {
+        button.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Prevent default touch behavior
+            this.click(); // Trigger the click event
+        });
+        
+        button.addEventListener('touchend', function(e) {
+            e.preventDefault(); // Prevent default touch behavior
+        });
+    });
+}
 
 // Start the game
 function startGame() {
