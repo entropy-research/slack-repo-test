@@ -1,94 +1,94 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Penguin image URLs for the gallery
-    const penguinImages = [
+    // Fish image URLs for the gallery
+    const fishImages = [
         {
             url: "https://images.unsplash.com/photo-1598439210625-358c27a14b9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            caption: "Emperor Penguins in Antarctica"
+            caption: "Whale Shark in the Ocean"
         },
         {
             url: "https://images.unsplash.com/photo-1517783999520-f068d7431a60?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            caption: "Adelie Penguin on Ice"
+            caption: "Clownfish in Coral Reef"
         },
         {
             url: "https://images.unsplash.com/photo-1549093497-93a18821d217?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            caption: "King Penguin Colony"
+            caption: "School of Tropical Fish"
         },
         {
             url: "https://images.unsplash.com/photo-1596979240348-7c1b780c9a3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            caption: "Gentoo Penguin Jumping"
+            caption: "Angelfish Swimming"
         },
         {
             url: "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            caption: "Little Blue Penguin"
+            caption: "Colorful Betta Fish"
         },
         {
             url: "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            caption: "Penguin Family"
+            caption: "Fish Family"
         }
     ];
     
-    // More penguin images for the "Show Me More Penguins" button
-    const morePenguinImages = [
+    // More fish images for the "Show Me More Fish" button
+    const moreFishImages = [
         "https://images.unsplash.com/photo-1598439210625-358c27a14b9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1596979240348-7c1b780c9a3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
     ];
 
-    // Penguin facts for random display
-    const penguinFacts = [
-        "There are 18 species of penguins in the world.",
-        "The Emperor Penguin is the tallest of all penguin species, reaching heights of up to 4 feet tall.",
-        "Penguins can drink sea water because they have a special gland that filters out the salt.",
-        "The smallest penguin species is the Little Blue Penguin, standing just 16 inches tall.",
-        "Penguins' distinctive black and white coloring is a form of camouflage called countershading.",
-        "Some penguin species can leap 6-9 feet out of the water when swimming.",
-        "Penguins spend up to 75% of their lives in the water.",
-        "The Emperor Penguin can dive deeper than any other bird, reaching depths of over 1,800 feet.",
-        "Penguins have a special gland that produces oil to make their feathers waterproof.",
-        "Most penguin species mate for life."
+    // Fish facts for random display
+    const fishFacts = [
+        "There are over 33,000 species of fish in the world.",
+        "The Whale Shark is the largest fish species, growing up to 40 feet long.",
+        "Fish can taste with their entire bodies, not just their mouths.",
+        "The smallest fish species is the Paedocypris, measuring just 7.9mm in length.",
+        "Many fish have color-changing abilities to help with camouflage.",
+        "Some fish species can leap up to 10 feet out of the water when swimming.",
+        "Fish are the oldest vertebrate group, dating back over 500 million years.",
+        "The Mariana snailfish can live at depths of over 26,000 feet.",
+        "Fish have specialized scales that help them move efficiently through water.",
+        "Some species of fish can change their gender during their lifetime."
     ];
     
     // DOM elements
-    const penguinBtn = document.getElementById('penguinBtn');
-    const mainPenguin = document.getElementById('mainPenguin');
-    const penguinGallery = document.getElementById('penguinGallery');
+    const fishBtn = document.getElementById('fishBtn');
+    const mainFish = document.getElementById('mainFish');
+    const fishGallery = document.getElementById('fishGallery');
     
     // Initialize the gallery
     function initGallery() {
-        penguinGallery.innerHTML = '';
+        fishGallery.innerHTML = '';
         
-        penguinImages.forEach(penguin => {
+        fishImages.forEach(fish => {
             const galleryItem = document.createElement('div');
             galleryItem.className = 'gallery-item';
             
             const img = document.createElement('img');
-            img.src = penguin.url;
-            img.alt = penguin.caption;
+            img.src = fish.url;
+            img.alt = fish.caption;
             
             const caption = document.createElement('div');
             caption.className = 'gallery-caption';
-            caption.textContent = penguin.caption;
+            caption.textContent = fish.caption;
             
             galleryItem.appendChild(img);
             galleryItem.appendChild(caption);
-            penguinGallery.appendChild(galleryItem);
+            fishGallery.appendChild(galleryItem);
         
-            // Add click event to show a random penguin fact
-            galleryItem.addEventListener('click', showRandomPenguinFact);
+            // Add click event to show a random fish fact
+            galleryItem.addEventListener('click', showRandomFishFact);
         });
     }
     
-    // Show a random penguin fact when a gallery image is clicked
-    function showRandomPenguinFact() {
-        const randomFact = penguinFacts[Math.floor(Math.random() * penguinFacts.length)];
+    // Show a random fish fact when a gallery image is clicked
+    function showRandomFishFact() {
+        const randomFact = fishFacts[Math.floor(Math.random() * fishFacts.length)];
         
         // Create and show a fact popup
         const factPopup = document.createElement('div');
         factPopup.className = 'fact-popup';
         factPopup.innerHTML = `
             <div class="fact-popup-content">
-                <h3>🐧 Penguin Fact! 🐧</h3>
+                <h3>🐟 Fish Fact! 🐟</h3>
                 <p>${randomFact}</p>
                 <button class="close-popup">Close</button>
             </div>
@@ -131,43 +131,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Change the main penguin image when button is clicked
+    // Change the main fish image when button is clicked
     let currentImageIndex = 0;
-    penguinBtn.addEventListener('click', () => {
-        currentImageIndex = (currentImageIndex + 1) % morePenguinImages.length;
-        mainPenguin.src = morePenguinImages[currentImageIndex];
+    fishBtn.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex + 1) % moreFishImages.length;
+        mainFish.src = moreFishImages[currentImageIndex];
         
         // Add a fun animation
-        mainPenguin.style.transition = 'transform 0.5s ease';
-        mainPenguin.style.transform = 'scale(1.1)';
+        mainFish.style.transition = 'transform 0.5s ease';
+        mainFish.style.transform = 'scale(1.1)';
         
         setTimeout(() => {
-            mainPenguin.style.transform = 'scale(1)';
+            mainFish.style.transform = 'scale(1)';
         }, 500);
         
         // Change button text occasionally
         if (Math.random() > 0.7) {
             const buttonTexts = [
-                "More Penguins Please!",
-                "I Love Penguins!",
-                "Another Penguin!",
-                "Penguins Are Awesome!",
+                "More Fish Please!",
+                "I Love Fish!",
+                "Another Fish!",
+                "Fish Are Awesome!",
                 "Show Me More!"
             ];
-            penguinBtn.textContent = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
+            fishBtn.textContent = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
         }
     });
     
-    // Add a "waddle" effect to the penguin image on hover
-    mainPenguin.addEventListener('mouseover', () => {
-        let waddleCount = 0;
-        const waddleInterval = setInterval(() => {
-            mainPenguin.style.transform = waddleCount % 2 === 0 ? 'rotate(2deg)' : 'rotate(-2deg)';
-            waddleCount++;
+    // Add a "swim" effect to the fish image on hover
+    mainFish.addEventListener('mouseover', () => {
+        let swimCount = 0;
+        const swimInterval = setInterval(() => {
+            mainFish.style.transform = swimCount % 2 === 0 ? 'translateX(5px)' : 'translateX(-5px)';
+            swimCount++;
             
-            if (waddleCount > 6) {
-                clearInterval(waddleInterval);
-                mainPenguin.style.transform = 'rotate(0deg)';
+            if (swimCount > 6) {
+                clearInterval(swimInterval);
+                mainFish.style.transform = 'translateX(0)';
             }
         }, 200);
     });
@@ -176,5 +176,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initGallery();
     
     // Add a fun welcome message
-    console.log("🐧 Welcome to Penguin Paradise! 🐧");
+    console.log("🐟 Welcome to Fish Paradise! 🐟");
 });
