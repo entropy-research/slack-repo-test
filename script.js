@@ -251,119 +251,96 @@ function drawGame() {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Draw snake as penguins
+    // Draw snake
     for (let i = 0; i < snake.length; i++) {
         const segment = snake[i];
         const isHead = i === 0;
         
-        // Draw penguin for each segment
-        drawPenguin(segment.x, segment.y, gridSize, isHead);
+        // Draw snake segment
+        if (isHead) {
+            // Head - slightly different color
+            ctx.fillStyle = '#4CAF50'; // Brighter green for head
+            ctx.strokeStyle = '#388E3C'; // Darker green border
+        } else {
+            // Body segments
+            ctx.fillStyle = '#66BB6A'; // Green for body
+            ctx.strokeStyle = '#388E3C'; // Darker green border
+        }
+        
+        // Draw segment with slight padding for visual separation
+        const padding = 1;
+        ctx.fillRect(segment.x + padding, segment.y + padding, gridSize - padding * 2, gridSize - padding * 2);
+        ctx.strokeRect(segment.x + padding, segment.y + padding, gridSize - padding * 2, gridSize - padding * 2);
+    
+        // Add eyes to the head
+        if (isHead) {
+            const eyeSize = 3;
+            const eyeOffset = gridSize / 4;
+            
+            // Position eyes based on direction
+            let leftEyeX, leftEyeY, rightEyeX, rightEyeY;
+            
+            switch(direction) {
+                case 'up':
+                    leftEyeX = segment.x + eyeOffset;
+                    leftEyeY = segment.y + eyeOffset;
+                    rightEyeX = segment.x + gridSize - eyeOffset;
+                    rightEyeY = segment.y + eyeOffset;
+                    break;
+                case 'down':
+                    leftEyeX = segment.x + eyeOffset;
+                    leftEyeY = segment.y + gridSize - eyeOffset;
+                    rightEyeX = segment.x + gridSize - eyeOffset;
+                    rightEyeY = segment.y + gridSize - eyeOffset;
+                    break;
+                case 'left':
+                    leftEyeX = segment.x + eyeOffset;
+                    leftEyeY = segment.y + eyeOffset;
+                    rightEyeX = segment.x + eyeOffset;
+                    rightEyeY = segment.y + gridSize - eyeOffset;
+                    break;
+                case 'right':
+                    leftEyeX = segment.x + gridSize - eyeOffset;
+                    leftEyeY = segment.y + eyeOffset;
+                    rightEyeX = segment.x + gridSize - eyeOffset;
+                    rightEyeY = segment.y + gridSize - eyeOffset;
+                    break;
+            }
+            
+            // Draw eyes
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+            ctx.arc(leftEyeX, leftEyeY, eyeSize, 0, Math.PI * 2);
+            ctx.arc(rightEyeX, rightEyeY, eyeSize, 0, Math.PI * 2);
+    ctx.fill();
+
+            // Draw pupils
+            ctx.fillStyle = 'black';
+    ctx.beginPath();
+            ctx.arc(leftEyeX, leftEyeY, eyeSize/2, 0, Math.PI * 2);
+            ctx.arc(rightEyeX, rightEyeY, eyeSize/2, 0, Math.PI * 2);
+    ctx.fill();
+        }
     }
     
-    // Draw food (arctic fish)
-    ctx.fillStyle = '#E91E63'; // Pinkish color for arctic fish/seal
-    ctx.fillRect(food.x, food.y, gridSize, gridSize);
-    ctx.strokeStyle = '#C2185B'; // Darker border
-    ctx.strokeRect(food.x, food.y, gridSize, gridSize);
+    // Draw food (apple)
+    ctx.fillStyle = '#F44336'; // Red for apple
+    ctx.beginPath();
+    ctx.arc(food.x + gridSize/2, food.y + gridSize/2, gridSize/2 - 2, 0, Math.PI * 2);
+    ctx.fill();
     
-    // Optional: Draw snowflakes (randomly)
-    if (Math.random() < 0.05) { // 5% chance each frame
-        drawSnowflake();
-    }
+    // Draw apple stem
+    ctx.fillStyle = '#795548'; // Brown for stem
+    ctx.fillRect(food.x + gridSize/2 - 1, food.y + 2, 2, 4);
+        
+    // Optional: Draw leaf
+    ctx.fillStyle = '#8BC34A'; // Green for leaf
+    ctx.beginPath();
+    ctx.ellipse(food.x + gridSize/2 + 3, food.y + 4, 3, 2, Math.PI/4, 0, Math.PI * 2);
+    ctx.fill();
     
     // Draw grid (optional, for debugging)
     // drawGrid();
-}
-
-// Draw a random snowflake
-function drawSnowflake() {
-    const x = Math.random() * canvas.width;
-    const y = Math.random() * canvas.height;
-    const size = Math.random() * 3 + 1;
-    
-    ctx.fillStyle = 'white';
-    ctx.beginPath();
-    ctx.arc(x, y, size, 0, Math.PI * 2);
-    ctx.fill();
-}
-
-// Draw a penguin at the specified coordinates
-function drawPenguin(x, y, size, isHead) {
-    // Center point of the cell
-    const centerX = x + size / 2;
-    const centerY = y + size / 2;
-    
-    // Scale factor (slightly smaller than the grid to have some padding)
-    const scale = size * 0.9;
-    
-    // Body (oval)
-    ctx.fillStyle = '#000000'; // Black for penguin body
-    ctx.beginPath();
-    ctx.ellipse(centerX, centerY, scale/2, scale/2.5, 0, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // White belly
-    ctx.fillStyle = '#FFFFFF';
-    ctx.beginPath();
-    ctx.ellipse(centerX, centerY + scale/10, scale/3, scale/3, 0, 0, Math.PI * 2);
-    ctx.fill();
-    
-    if (isHead) {
-        // Eyes (only on head)
-        const eyeSize = scale/8;
-        
-        // Left eye
-        ctx.fillStyle = '#FFFFFF';
-        ctx.beginPath();
-        ctx.arc(centerX - scale/4, centerY - scale/8, eyeSize, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Left pupil
-        ctx.fillStyle = '#000000';
-        ctx.beginPath();
-        ctx.arc(centerX - scale/4, centerY - scale/8, eyeSize/2, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Right eye
-        ctx.fillStyle = '#FFFFFF';
-        ctx.beginPath();
-        ctx.arc(centerX + scale/4, centerY - scale/8, eyeSize, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Right pupil
-        ctx.fillStyle = '#000000';
-        ctx.beginPath();
-        ctx.arc(centerX + scale/4, centerY - scale/8, eyeSize/2, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Orange beak
-        ctx.fillStyle = '#FF9800';
-        ctx.beginPath();
-        ctx.moveTo(centerX - scale/6, centerY + scale/8);
-        ctx.lineTo(centerX + scale/6, centerY + scale/8);
-        ctx.lineTo(centerX, centerY + scale/4);
-        ctx.closePath();
-        ctx.fill();
-    }
-    
-    // Flippers (small triangles on the sides)
-    ctx.fillStyle = '#000000';
-    
-    // Left flipper
-    ctx.beginPath();
-    ctx.moveTo(centerX - scale/2, centerY);
-    ctx.lineTo(centerX - scale/1.5, centerY);
-    ctx.lineTo(centerX - scale/2, centerY + scale/4);
-    ctx.closePath();
-    ctx.fill();
-    
-    // Right flipper
-    ctx.beginPath();
-    ctx.moveTo(centerX + scale/2, centerY);
-    ctx.lineTo(centerX + scale/1.5, centerY);
-    ctx.lineTo(centerX + scale/2, centerY + scale/4);
-    ctx.closePath();
-    ctx.fill();
 }
 
 // Draw grid lines (optional, for debugging)
