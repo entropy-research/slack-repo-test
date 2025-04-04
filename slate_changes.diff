@@ -1,451 +1,701 @@
 diff --git a/index.html b/index.html
-index bb45c1c..ac3b156 100644
+index ac3b156..1946c4c 100644
 --- a/index.html
 +++ b/index.html
-@@ -3,57 +3,48 @@
+@@ -3,48 +3,42 @@
  <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
--    <title>Penguin Paradise</title>
-+    <title>Fish Paradise</title>
+-    <title>Fish Paradise</title>
++    <title>Snake Game</title>
      <link rel="stylesheet" href="style.css">
  </head>
  <body>
--    <div class="penguin-container">
-+    <div class="fish-container">
+-    <div class="fish-container">
++    <div class="game-container">
          <header>
--            <h1>🐧 Penguin Paradise 🐧</h1>
--            <p class="tagline">The ultimate destination for penguin enthusiasts!</p>
-+            <h1>🐟 Fish Paradise 🐟</h1>
-+            <p class="tagline">The ultimate destination for fish enthusiasts!</p>
+-            <h1>🐟 Fish Paradise 🐟</h1>
+-            <p class="tagline">The ultimate destination for fish enthusiasts!</p>
++            <h1>🐍 Snake Game 🐍</h1>
++            <p class="tagline">Classic arcade game reimagined!</p>
          </header>
          
-         <section class="hero">
--            <div class="penguin-image">
--                <img id="mainPenguin" src="https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Adorable Penguin">
-+            <div class="fish-image">
-+                <img id="mainFish" src="https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Beautiful Fish">
+-        <section class="hero">
+-            <div class="fish-image">
+-                <img id="mainFish" src="https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Beautiful Fish">
++        <section class="game-area">
++            <div class="score-board">
++                <div class="score">Score: <span id="score">0</span></div>
++                <div class="high-score">High Score: <span id="highScore">0</span></div>
              </div>
-             <div class="welcome-text">
--                <h2>Welcome to Penguin Paradise!</h2>
--                <p>Discover the wonderful world of penguins - from the majestic Emperor Penguin to the adorable Little Blue Penguin.</p>
--                <button id="penguinBtn">Show Me More Penguins!</button>
-+                <h2>Welcome to Fish Paradise!</h2>
-+                <p>Discover the wonderful world of fish - from the majestic Whale Shark to the colorful Clownfish.</p>
-+                <button id="fishBtn">Show Me More Fish!</button>
+-            <div class="welcome-text">
+-                <h2>Welcome to Fish Paradise!</h2>
+-                <p>Discover the wonderful world of fish - from the majestic Whale Shark to the colorful Clownfish.</p>
+-                <button id="fishBtn">Show Me More Fish!</button>
++            
++            <canvas id="gameCanvas" width="400" height="400"></canvas>
++            
++            <div class="controls">
++                <button id="startBtn">Start Game</button>
++                <button id="resetBtn">Reset Game</button>
              </div>
-         </section>
-         
--        <section class="penguin-facts">
--            <h2>Amazing Penguin Facts</h2>
-+        <section class="fish-facts">
-+            <h2>Amazing Fish Facts</h2>
-             <div class="facts-container">
-                 <div class="fact-card">
--                    <h3>Emperor Penguins</h3>
--                    <p>The largest penguin species, standing up to 4 feet tall and weighing up to 88 pounds!</p>
-+                    <h3>Whale Sharks</h3>
-+                    <p>The largest fish species, growing up to 40 feet long and weighing up to 20 tons!</p>
-                 </div>
-                 <div class="fact-card">
--                    <h3>Penguin Diet</h3>
--                    <p>Penguins primarily eat fish, squid, and krill, consuming up to 2 pounds of food per day.</p>
-+                    <h3>Fish Diet</h3>
-+                    <p>Fish eat a variety of foods including algae, plants, and other fish, depending on their species.</p>
-                 </div>
-                 <div class="fact-card">
-                     <h3>Swimming Speed</h3>
--                    <p>Penguins can swim at speeds up to 22 mph, making them incredibly fast underwater!</p>
-+                    <p>Some fish can swim at speeds up to 68 mph, making them incredibly fast underwater!</p>
-                 </div>
-         </div>
-         </section>
-         
--        <section class="penguin-gallery">
--            <h2>Penguin Gallery</h2>
--            <div class="gallery-container" id="penguinGallery">
--                <!-- Penguin images will be added here via JavaScript -->
-+        <section class="fish-gallery">
-+            <h2>Fish Gallery</h2>
-+            <div class="gallery-container" id="fishGallery">
-+                <!-- Fish images will be added here via JavaScript -->
-         </div>
 -        </section>
 -        
--        <footer>
--            <p>🐧 Penguin Paradise - Where Every Day is Penguin Day! 🐧</p>
--            <p class="copyright">© 2023 Penguin Enthusiasts</p>
--        </footer>
--    </div>
--    <script src="script.js"></script>
--</body>
--</html>
+-        <section class="fish-facts">
+-            <h2>Amazing Fish Facts</h2>
+-            <div class="facts-container">
+-                <div class="fact-card">
+-                    <h3>Whale Sharks</h3>
+-                    <p>The largest fish species, growing up to 40 feet long and weighing up to 20 tons!</p>
+-                </div>
+-                <div class="fact-card">
+-                    <h3>Fish Diet</h3>
+-                    <p>Fish eat a variety of foods including algae, plants, and other fish, depending on their species.</p>
+-                </div>
+-                <div class="fact-card">
+-                    <h3>Swimming Speed</h3>
+-                    <p>Some fish can swim at speeds up to 68 mph, making them incredibly fast underwater!</p>
+-                </div>
++            
++            <div class="instructions">
++                <h3>How to Play:</h3>
++                <p>Use the arrow keys to control the snake. Eat the food to grow longer and earn points. Avoid hitting the walls or yourself!</p>
++                <ul>
++                    <li>↑ - Move Up</li>
++                    <li>↓ - Move Down</li>
++                    <li>← - Move Left</li>
++                    <li>→ - Move Right</li>
++                </ul>
+         </div>
+         </section>
+-        
+-        <section class="fish-gallery">
+-            <h2>Fish Gallery</h2>
+-            <div class="gallery-container" id="fishGallery">
+-                <!-- Fish images will be added here via JavaScript -->
+-        </div>
+-        </section>
 \ No newline at end of file
-+        </section>
++    </div>
++    
++    <script src="script.js"></script>
++</body>
++</html>
 \ No newline at end of file
 diff --git a/script.js b/script.js
-index 425f5be..37d4af0 100644
+index 37d4af0..13d0460 100644
 --- a/script.js
 +++ b/script.js
-@@ -1,94 +1,94 @@
- document.addEventListener('DOMContentLoaded', () => {
--    // Penguin image URLs for the gallery
--    const penguinImages = [
-+    // Fish image URLs for the gallery
-+    const fishImages = [
-         {
-             url: "https://images.unsplash.com/photo-1598439210625-358c27a14b9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
--            caption: "Emperor Penguins in Antarctica"
-+            caption: "Whale Shark in the Ocean"
-         },
-         {
-             url: "https://images.unsplash.com/photo-1517783999520-f068d7431a60?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
--            caption: "Adelie Penguin on Ice"
-+            caption: "Clownfish in Coral Reef"
-         },
-         {
-             url: "https://images.unsplash.com/photo-1549093497-93a18821d217?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
--            caption: "King Penguin Colony"
-+            caption: "School of Tropical Fish"
-         },
-         {
-             url: "https://images.unsplash.com/photo-1596979240348-7c1b780c9a3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
--            caption: "Gentoo Penguin Jumping"
-+            caption: "Angelfish Swimming"
-         },
-         {
-             url: "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
--            caption: "Little Blue Penguin"
-+            caption: "Colorful Betta Fish"
-         },
-         {
-             url: "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
--            caption: "Penguin Family"
-+            caption: "Fish Family"
-         }
-     ];
+@@ -1,180 +1,248 @@
+-document.addEventListener('DOMContentLoaded', () => {
+-    // Fish image URLs for the gallery
+-    const fishImages = [
+-        {
+-            url: "https://images.unsplash.com/photo-1598439210625-358c27a14b9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-            caption: "Whale Shark in the Ocean"
+-        },
+-        {
+-            url: "https://images.unsplash.com/photo-1517783999520-f068d7431a60?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-            caption: "Clownfish in Coral Reef"
+-        },
+-        {
+-            url: "https://images.unsplash.com/photo-1549093497-93a18821d217?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-            caption: "School of Tropical Fish"
+-        },
+-        {
+-            url: "https://images.unsplash.com/photo-1596979240348-7c1b780c9a3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-            caption: "Angelfish Swimming"
+-        },
+-        {
+-            url: "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-            caption: "Colorful Betta Fish"
+-        },
+-        {
+-            url: "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-            caption: "Fish Family"
+-        }
+-    ];
++// Game variables
++let canvas, ctx;
++let snake = [];
++let food = {};
++let direction = 'right';
++let newDirection = 'right';
++let gameSpeed = 100; // milliseconds
++let gridSize = 20;
++let gameRunning = false;
++let score = 0;
++let highScore = localStorage.getItem('snakeHighScore') || 0;
++
++// Initialize the game
++window.onload = function() {
++    canvas = document.getElementById('gameCanvas');
++    ctx = canvas.getContext('2d');
      
--    // More penguin images for the "Show Me More Penguins" button
--    const morePenguinImages = [
-+    // More fish images for the "Show Me More Fish" button
-+    const moreFishImages = [
-         "https://images.unsplash.com/photo-1598439210625-358c27a14b9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-         "https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-         "https://images.unsplash.com/photo-1596979240348-7c1b780c9a3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-         "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-     ];
+-    // More fish images for the "Show Me More Fish" button
+-    const moreFishImages = [
+-        "https://images.unsplash.com/photo-1598439210625-358c27a14b9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-        "https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-        "https://images.unsplash.com/photo-1596979240348-7c1b780c9a3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+-        "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+-    ];
++    // Set up event listeners
++    document.getElementById('startBtn').addEventListener('click', startGame);
++    document.getElementById('resetBtn').addEventListener('click', resetGame);
++    document.addEventListener('keydown', changeDirection);
++    
++    // Display high score from local storage
++    document.getElementById('highScore').textContent = highScore;
++    
++    // Draw initial game state
++    drawGame();
++};
  
--    // Penguin facts for random display
--    const penguinFacts = [
--        "There are 18 species of penguins in the world.",
--        "The Emperor Penguin is the tallest of all penguin species, reaching heights of up to 4 feet tall.",
--        "Penguins can drink sea water because they have a special gland that filters out the salt.",
--        "The smallest penguin species is the Little Blue Penguin, standing just 16 inches tall.",
--        "Penguins' distinctive black and white coloring is a form of camouflage called countershading.",
--        "Some penguin species can leap 6-9 feet out of the water when swimming.",
--        "Penguins spend up to 75% of their lives in the water.",
--        "The Emperor Penguin can dive deeper than any other bird, reaching depths of over 1,800 feet.",
--        "Penguins have a special gland that produces oil to make their feathers waterproof.",
--        "Most penguin species mate for life."
-+    // Fish facts for random display
-+    const fishFacts = [
-+        "There are over 33,000 species of fish in the world.",
-+        "The Whale Shark is the largest fish species, growing up to 40 feet long.",
-+        "Fish can taste with their entire bodies, not just their mouths.",
-+        "The smallest fish species is the Paedocypris, measuring just 7.9mm in length.",
-+        "Many fish have color-changing abilities to help with camouflage.",
-+        "Some fish species can leap up to 10 feet out of the water when swimming.",
-+        "Fish are the oldest vertebrate group, dating back over 500 million years.",
-+        "The Mariana snailfish can live at depths of over 26,000 feet.",
-+        "Fish have specialized scales that help them move efficiently through water.",
-+        "Some species of fish can change their gender during their lifetime."
+-    // Fish facts for random display
+-    const fishFacts = [
+-        "There are over 33,000 species of fish in the world.",
+-        "The Whale Shark is the largest fish species, growing up to 40 feet long.",
+-        "Fish can taste with their entire bodies, not just their mouths.",
+-        "The smallest fish species is the Paedocypris, measuring just 7.9mm in length.",
+-        "Many fish have color-changing abilities to help with camouflage.",
+-        "Some fish species can leap up to 10 feet out of the water when swimming.",
+-        "Fish are the oldest vertebrate group, dating back over 500 million years.",
+-        "The Mariana snailfish can live at depths of over 26,000 feet.",
+-        "Fish have specialized scales that help them move efficiently through water.",
+-        "Some species of fish can change their gender during their lifetime."
++// Start the game
++function startGame() {
++    if (gameRunning) return;
++    
++    // Initialize snake
++    snake = [
++        {x: 5 * gridSize, y: 10 * gridSize},
++        {x: 4 * gridSize, y: 10 * gridSize},
++        {x: 3 * gridSize, y: 10 * gridSize}
      ];
      
-     // DOM elements
--    const penguinBtn = document.getElementById('penguinBtn');
--    const mainPenguin = document.getElementById('mainPenguin');
--    const penguinGallery = document.getElementById('penguinGallery');
-+    const fishBtn = document.getElementById('fishBtn');
-+    const mainFish = document.getElementById('mainFish');
-+    const fishGallery = document.getElementById('fishGallery');
+-    // DOM elements
+-    const fishBtn = document.getElementById('fishBtn');
+-    const mainFish = document.getElementById('mainFish');
+-    const fishGallery = document.getElementById('fishGallery');
++    // Reset game state
++    direction = 'right';
++    newDirection = 'right';
++    score = 0;
++    document.getElementById('score').textContent = score;
      
-     // Initialize the gallery
-     function initGallery() {
--        penguinGallery.innerHTML = '';
-+        fishGallery.innerHTML = '';
+-    // Initialize the gallery
+-    function initGallery() {
+-        fishGallery.innerHTML = '';
+-        
+-        fishImages.forEach(fish => {
+-            const galleryItem = document.createElement('div');
+-            galleryItem.className = 'gallery-item';
+-            
+-            const img = document.createElement('img');
+-            img.src = fish.url;
+-            img.alt = fish.caption;
+-            
+-            const caption = document.createElement('div');
+-            caption.className = 'gallery-caption';
+-            caption.textContent = fish.caption;
+-            
+-            galleryItem.appendChild(img);
+-            galleryItem.appendChild(caption);
+-            fishGallery.appendChild(galleryItem);
++    // Generate first food
++    generateFood();
++    
++    // Start game loop
++    gameRunning = true;
++    gameLoop();
++}
++
++// Reset the game
++function resetGame() {
++    gameRunning = false;
++    ctx.clearRect(0, 0, canvas.width, canvas.height);
++    drawGame();
++}
++
++// Main game loop
++function gameLoop() {
++    if (!gameRunning) return;
++    
++    setTimeout(function() {
++        moveSnake();
++        checkCollision();
++        drawGame();
          
--        penguinImages.forEach(penguin => {
-+        fishImages.forEach(fish => {
-             const galleryItem = document.createElement('div');
-             galleryItem.className = 'gallery-item';
-             
-             const img = document.createElement('img');
--            img.src = penguin.url;
--            img.alt = penguin.caption;
-+            img.src = fish.url;
-+            img.alt = fish.caption;
-             
-             const caption = document.createElement('div');
-             caption.className = 'gallery-caption';
--            caption.textContent = penguin.caption;
-+            caption.textContent = fish.caption;
-             
-             galleryItem.appendChild(img);
-             galleryItem.appendChild(caption);
--            penguinGallery.appendChild(galleryItem);
-+            fishGallery.appendChild(galleryItem);
-         
--            // Add click event to show a random penguin fact
--            galleryItem.addEventListener('click', showRandomPenguinFact);
-+            // Add click event to show a random fish fact
-+            galleryItem.addEventListener('click', showRandomFishFact);
-         });
+-            // Add click event to show a random fish fact
+-            galleryItem.addEventListener('click', showRandomFishFact);
+-        });
++        if (gameRunning) {
++            gameLoop();
++        }
++    }, gameSpeed);
++}
++
++// Move the snake
++function moveSnake() {
++    // Update direction based on user input
++    direction = newDirection;
++    
++    // Create new head based on current direction
++    const head = {x: snake[0].x, y: snake[0].y};
++    
++    switch(direction) {
++        case 'up':
++            head.y -= gridSize;
++            break;
++        case 'down':
++            head.y += gridSize;
++            break;
++        case 'left':
++            head.x -= gridSize;
++            break;
++        case 'right':
++            head.x += gridSize;
++            break;
      }
      
--    // Show a random penguin fact when a gallery image is clicked
--    function showRandomPenguinFact() {
--        const randomFact = penguinFacts[Math.floor(Math.random() * penguinFacts.length)];
-+    // Show a random fish fact when a gallery image is clicked
-+    function showRandomFishFact() {
-+        const randomFact = fishFacts[Math.floor(Math.random() * fishFacts.length)];
+-    // Show a random fish fact when a gallery image is clicked
+-    function showRandomFishFact() {
+-        const randomFact = fishFacts[Math.floor(Math.random() * fishFacts.length)];
+-        
+-        // Create and show a fact popup
+-        const factPopup = document.createElement('div');
+-        factPopup.className = 'fact-popup';
+-        factPopup.innerHTML = `
+-            <div class="fact-popup-content">
+-                <h3>🐟 Fish Fact! 🐟</h3>
+-                <p>${randomFact}</p>
+-                <button class="close-popup">Close</button>
+-            </div>
+-        `;
++    // Add new head to the beginning of snake array
++    snake.unshift(head);
++    
++    // Check if snake ate food
++    if (head.x === food.x && head.y === food.y) {
++        // Increase score
++        score += 10;
++        document.getElementById('score').textContent = score;
          
-         // Create and show a fact popup
-         const factPopup = document.createElement('div');
-         factPopup.className = 'fact-popup';
-         factPopup.innerHTML = `
-             <div class="fact-popup-content">
--                <h3>🐧 Penguin Fact! 🐧</h3>
-+                <h3>🐟 Fish Fact! 🐟</h3>
-                 <p>${randomFact}</p>
-                 <button class="close-popup">Close</button>
-             </div>
-@@ -131,43 +131,43 @@ document.addEventListener('DOMContentLoaded', () => {
-         });
+-        document.body.appendChild(factPopup);
+-            
+-        // Style the popup
+-        const popupStyle = document.createElement('style');
+-        popupStyle.textContent = `
+-            .fact-popup {
+-                position: fixed;
+-                top: 0;
+-                left: 0;
+-                width: 100%;
+-                height: 100%;
+-                background-color: rgba(0, 0, 0, 0.7);
+-                display: flex;
+-                justify-content: center;
+-                align-items: center;
+-                z-index: 1000;
+-            }
+-            .fact-popup-content {
+-                background-color: white;
+-                padding: 20px;
+-                border-radius: 10px;
+-                max-width: 400px;
+-                text-align: center;
+-            }
+-            .close-popup {
+-                margin-top: 15px;
+-            }
+-        `;
+-        document.head.appendChild(popupStyle);
++        // Update high score if needed
++        if (score > highScore) {
++            highScore = score;
++            document.getElementById('highScore').textContent = highScore;
++            localStorage.setItem('snakeHighScore', highScore);
++        }
+         
+-        // Add close functionality
+-        const closeBtn = factPopup.querySelector('.close-popup');
+-        closeBtn.addEventListener('click', () => {
+-            document.body.removeChild(factPopup);
+-        });
++        // Generate new food
++        generateFood();
++    } else {
++        // Remove tail if no food was eaten
++        snake.pop();
      }
++}
  
--    // Change the main penguin image when button is clicked
-+    // Change the main fish image when button is clicked
-     let currentImageIndex = 0;
--    penguinBtn.addEventListener('click', () => {
--        currentImageIndex = (currentImageIndex + 1) % morePenguinImages.length;
--        mainPenguin.src = morePenguinImages[currentImageIndex];
-+    fishBtn.addEventListener('click', () => {
-+        currentImageIndex = (currentImageIndex + 1) % moreFishImages.length;
-+        mainFish.src = moreFishImages[currentImageIndex];
-         
-         // Add a fun animation
--        mainPenguin.style.transition = 'transform 0.5s ease';
--        mainPenguin.style.transform = 'scale(1.1)';
-+        mainFish.style.transition = 'transform 0.5s ease';
-+        mainFish.style.transform = 'scale(1.1)';
-         
-         setTimeout(() => {
--            mainPenguin.style.transform = 'scale(1)';
-+            mainFish.style.transform = 'scale(1)';
-         }, 500);
-         
-         // Change button text occasionally
-         if (Math.random() > 0.7) {
-             const buttonTexts = [
--                "More Penguins Please!",
--                "I Love Penguins!",
--                "Another Penguin!",
--                "Penguins Are Awesome!",
-+                "More Fish Please!",
-+                "I Love Fish!",
-+                "Another Fish!",
-+                "Fish Are Awesome!",
-                 "Show Me More!"
-             ];
--            penguinBtn.textContent = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
-+            fishBtn.textContent = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
+-    // Change the main fish image when button is clicked
+-    let currentImageIndex = 0;
+-    fishBtn.addEventListener('click', () => {
+-        currentImageIndex = (currentImageIndex + 1) % moreFishImages.length;
+-        mainFish.src = moreFishImages[currentImageIndex];
+-        
+-        // Add a fun animation
+-        mainFish.style.transition = 'transform 0.5s ease';
+-        mainFish.style.transform = 'scale(1.1)';
+-        
+-        setTimeout(() => {
+-            mainFish.style.transform = 'scale(1)';
+-        }, 500);
+-        
+-        // Change button text occasionally
+-        if (Math.random() > 0.7) {
+-            const buttonTexts = [
+-                "More Fish Please!",
+-                "I Love Fish!",
+-                "Another Fish!",
+-                "Fish Are Awesome!",
+-                "Show Me More!"
+-            ];
+-            fishBtn.textContent = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
++// Handle keyboard input for direction changes
++function changeDirection(event) {
++    const key = event.keyCode;
++    
++    // Prevent reversing direction
++    if (key === 37 && direction !== 'right') { // Left Arrow
++        newDirection = 'left';
++    } else if (key === 38 && direction !== 'down') { // Up Arrow
++        newDirection = 'up';
++    } else if (key === 39 && direction !== 'left') { // Right Arrow
++        newDirection = 'right';
++    } else if (key === 40 && direction !== 'up') { // Down Arrow
++        newDirection = 'down';
++    }
++}
++
++// Check for collisions
++function checkCollision() {
++    const head = snake[0];
++    
++    // Check wall collision
++    if (
++        head.x < 0 || 
++        head.y < 0 || 
++        head.x >= canvas.width || 
++        head.y >= canvas.height
++    ) {
++        gameOver();
++        return;
++    }
++    
++    // Check self collision (skip the head)
++    for (let i = 1; i < snake.length; i++) {
++        if (head.x === snake[i].x && head.y === snake[i].y) {
++            gameOver();
++            return;
          }
-     });
-     
--    // Add a "waddle" effect to the penguin image on hover
--    mainPenguin.addEventListener('mouseover', () => {
--        let waddleCount = 0;
--        const waddleInterval = setInterval(() => {
--            mainPenguin.style.transform = waddleCount % 2 === 0 ? 'rotate(2deg)' : 'rotate(-2deg)';
--            waddleCount++;
-+    // Add a "swim" effect to the fish image on hover
-+    mainFish.addEventListener('mouseover', () => {
-+        let swimCount = 0;
-+        const swimInterval = setInterval(() => {
-+            mainFish.style.transform = swimCount % 2 === 0 ? 'translateX(5px)' : 'translateX(-5px)';
-+            swimCount++;
-             
--            if (waddleCount > 6) {
--                clearInterval(waddleInterval);
--                mainPenguin.style.transform = 'rotate(0deg)';
-+            if (swimCount > 6) {
-+                clearInterval(swimInterval);
-+                mainFish.style.transform = 'translateX(0)';
+-    });
+-    
+-    // Add a "swim" effect to the fish image on hover
+-    mainFish.addEventListener('mouseover', () => {
+-        let swimCount = 0;
+-        const swimInterval = setInterval(() => {
+-            mainFish.style.transform = swimCount % 2 === 0 ? 'translateX(5px)' : 'translateX(-5px)';
+-            swimCount++;
+-            
+-            if (swimCount > 6) {
+-                clearInterval(swimInterval);
+-                mainFish.style.transform = 'translateX(0)';
++    }
++}
++
++// Game over
++function gameOver() {
++    gameRunning = false;
++    
++    // Draw game over text
++    ctx.fillStyle = 'white';
++    ctx.font = '30px Arial';
++    ctx.textAlign = 'center';
++    ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2);
++    ctx.font = '20px Arial';
++    ctx.fillText('Press Start to play again', canvas.width / 2, canvas.height / 2 + 30);
++}
++
++// Generate food at random position
++function generateFood() {
++    // Calculate grid positions (avoid placing food on snake)
++    const gridWidth = canvas.width / gridSize;
++    const gridHeight = canvas.height / gridSize;
++    
++    let foodPosition;
++    let foodOnSnake;
++    
++    do {
++        foodOnSnake = false;
++        foodPosition = {
++            x: Math.floor(Math.random() * gridWidth) * gridSize,
++            y: Math.floor(Math.random() * gridHeight) * gridSize
++        };
++        
++        // Check if food is on snake
++        for (let segment of snake) {
++            if (segment.x === foodPosition.x && segment.y === foodPosition.y) {
++                foodOnSnake = true;
++                break;
              }
-         }, 200);
-     });
-@@ -176,5 +176,5 @@ document.addEventListener('DOMContentLoaded', () => {
-     initGallery();
+-        }, 200);
+-    });
++        }
++    } while (foodOnSnake);
++    
++    food = foodPosition;
++}
++
++// Draw everything
++function drawGame() {
++    // Clear canvas
++    ctx.clearRect(0, 0, canvas.width, canvas.height);
++    
++    // Draw snake
++    ctx.fillStyle = '#4CAF50';
++    for (let segment of snake) {
++        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
++        
++        // Add border to snake segments
++        ctx.strokeStyle = '#2E7D32';
++        ctx.strokeRect(segment.x, segment.y, gridSize, gridSize);
++    }
++    
++    // Draw food
++    ctx.fillStyle = '#FF5722';
++    ctx.fillRect(food.x, food.y, gridSize, gridSize);
++    ctx.strokeStyle = '#BF360C';
++    ctx.strokeRect(food.x, food.y, gridSize, gridSize);
++    
++    // Draw grid (optional, for debugging)
++    // drawGrid();
++}
+ 
+-    // Initialize the gallery when the page loads
+-    initGallery();
++// Draw grid lines (optional, for debugging)
++function drawGrid() {
++    ctx.strokeStyle = '#222';
++    ctx.lineWidth = 0.5;
      
-     // Add a fun welcome message
--    console.log("🐧 Welcome to Penguin Paradise! 🐧");
-+    console.log("🐟 Welcome to Fish Paradise! 🐟");
- });
+-    // Add a fun welcome message
+-    console.log("🐟 Welcome to Fish Paradise! 🐟");
+-});
+\ No newline at end of file
++    for (let x = 0; x < canvas.width; x += gridSize) {
++        ctx.beginPath();
++        ctx.moveTo(x, 0);
++        ctx.lineTo(x, canvas.height);
++        ctx.stroke();
++    }
++    
++    for (let y = 0; y < canvas.height; y += gridSize) {
++        ctx.beginPath();
++        ctx.moveTo(0, y);
++        ctx.lineTo(canvas.width, y);
++        ctx.stroke();
++    }
++}
 \ No newline at end of file
 diff --git a/style.css b/style.css
-index cb1fd40..b4eb033 100644
+index b4eb033..348c5b8 100644
 --- a/style.css
 +++ b/style.css
-@@ -2,11 +2,11 @@ body {
+@@ -2,12 +2,12 @@ body {
      font-family: 'Arial', sans-serif;
      margin: 0;
      padding: 0;
--    background-color: #e0f7ff; /* Light blue background like ice */
-+    background-color: #e0f7ff; /* Light blue background like water */
+-    background-color: #e0f7ff; /* Light blue background like water */
++    background-color: #f0f0f0;
      color: #333;
  }
  
--.penguin-container {
-+.fish-container {
-     max-width: 1200px;
+-.fish-container {
+-    max-width: 1200px;
++.game-container {
++    max-width: 800px;
      margin: 0 auto;
      padding: 20px;
-@@ -43,20 +43,20 @@ h1 {
-     margin-bottom: 30px;
  }
- 
--.penguin-image {
-+.fish-image {
-     flex: 1;
-     min-width: 300px;
-     padding: 20px;
- }
- 
--.penguin-image img {
-+.fish-image img {
-     width: 100%;
-     height: auto;
-     border-radius: 10px;
-     transition: transform 0.3s ease;
- }
- 
--.penguin-image img:hover {
-+.fish-image img:hover {
-     transform: scale(1.05);
- }
- 
-@@ -82,7 +82,7 @@ button:hover {
-     background-color: #003d66; /* Darker blue */
- }
- 
--.penguin-facts {
-+.fish-facts {
-     background-color: #ffffff;
-     padding: 20px;
-     border-radius: 10px;
-@@ -90,7 +90,7 @@ button:hover {
-     margin-bottom: 30px;
- }
- 
--.penguin-facts h2 {
-+.fish-facts h2 {
+@@ -15,7 +15,7 @@ body {
+ header {
      text-align: center;
-     color: #005b96;
- }
-@@ -116,7 +116,7 @@ button:hover {
-     margin-top: 0;
- }
- 
--.penguin-gallery {
-+.fish-gallery {
-     background-color: #ffffff;
-     padding: 20px;
+     padding: 20px 0;
+-    background-color: #005b96; /* Deep blue */
++    background-color: #4CAF50; /* Green theme for snake */
+     color: white;
      border-radius: 10px;
-@@ -124,7 +124,7 @@ button:hover {
-     margin-bottom: 30px;
+     margin-bottom: 20px;
+@@ -32,120 +32,87 @@ h1 {
+     margin-top: 10px;
  }
  
--.penguin-gallery h2 {
-+.fish-gallery h2 {
-     text-align: center;
-     color: #005b96;
+-.hero {
++.game-area {
+     display: flex;
+-    flex-wrap: wrap;
++    flex-direction: column;
+     align-items: center;
+     background-color: #ffffff;
+     border-radius: 10px;
+-    overflow: hidden;
+-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+-    margin-bottom: 30px;
+-}
+-
+-.fish-image {
+-    flex: 1;
+-    min-width: 300px;
+     padding: 20px;
++    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
  }
-@@ -148,77 +148,4 @@ button:hover {
-     width: 100%;
-     height: 100%;
-     object-fit: cover;
+ 
+-.fish-image img {
+-    width: 100%;
+-    height: auto;
+-    border-radius: 10px;
 -    transition: transform 0.3s ease;
--}
--
--.gallery-item img:hover {
--    transform: scale(1.1);
--}
--
--.gallery-caption {
--    position: absolute;
--    bottom: 0;
--    left: 0;
--    right: 0;
--    background-color: rgba(0, 91, 150, 0.7);
--    color: white;
--    padding: 8px;
--    font-size: 0.9rem;
--}
--
--footer {
--    text-align: center;
--    background-color: #005b96;
--    color: white;
++.score-board {
++    display: flex;
++    justify-content: space-between;
++    width: 400px;
++    margin-bottom: 15px;
++    font-size: 1.2rem;
++    font-weight: bold;
+ }
+ 
+-.fish-image img:hover {
+-    transform: scale(1.05);
++#gameCanvas {
++    background-color: #000;
++    border: 3px solid #4CAF50;
++    border-radius: 5px;
+ }
+ 
+-.welcome-text {
+-    flex: 1;
+-    padding: 20px;
+-    min-width: 300px;
++.controls {
++    margin: 20px 0;
++    display: flex;
++    gap: 20px;
+ }
+ 
+ button {
+-    background-color: #005b96; /* Deep blue */
++    padding: 10px 20px;
++    font-size: 1rem;
++    background-color: #4CAF50;
+     color: white;
+     border: none;
+-    padding: 12px 24px;
+-    font-size: 1rem;
+     border-radius: 5px;
+     cursor: pointer;
+-    transition: background-color 0.3s ease;
+-    margin-top: 15px;
++    transition: background-color 0.3s;
+ }
+ 
+ button:hover {
+-    background-color: #003d66; /* Darker blue */
++    background-color: #45a049;
+ }
+ 
+-.fish-facts {
+-    background-color: #ffffff;
 -    padding: 20px;
 -    border-radius: 10px;
 -    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+-    margin-bottom: 30px;
++button:active {
++    transform: scale(0.98);
+ }
+ 
+-.fish-facts h2 {
++.instructions {
++    margin-top: 20px;
+     text-align: center;
+-    color: #005b96;
 -}
 -
--.copyright {
--    font-size: 0.9rem;
--    margin-top: 10px;
--}
--
--/* Popup styles for penguin facts */
--.fact-popup {
--    position: fixed;
--    top: 0;
--    left: 0;
--    width: 100%;
--    height: 100%;
--    background-color: rgba(0, 0, 0, 0.7);
+-.facts-container {
 -    display: flex;
--    justify-content: center;
--    align-items: center;
--    z-index: 1000;
+-    flex-wrap: wrap;
+-    justify-content: space-between;
+-    gap: 20px;
 -}
 -
--.fact-popup-content {
--    background-color: white;
--    padding: 20px;
--    border-radius: 10px;
--    max-width: 400px;
--    text-align: center;
--    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+-.fact-card {
+-    flex: 1;
+-    min-width: 250px;
+-    background-color: #f0f9ff; /* Very light blue */
+-    padding: 15px;
+-    border-radius: 8px;
+-    border-left: 5px solid #005b96;
 -}
 -
--.fact-popup-content h3 {
+-.fact-card h3 {
 -    color: #005b96;
 -    margin-top: 0;
--}
--
--.close-popup {
--    margin-top: 15px;
--}
--
--/* Responsive adjustments */
--@media (max-width: 768px) {
--    .hero {
--        flex-direction: column;
--    }
--    
--    .facts-container {
--        flex-direction: column;
--}
++    max-width: 500px;
+ }
+ 
+-.fish-gallery {
+-    background-color: #ffffff;
+-    padding: 20px;
+-    border-radius: 10px;
+-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+-    margin-bottom: 30px;
++.instructions h3 {
++    margin-bottom: 10px;
++    color: #4CAF50;
+ }
+ 
+-.fish-gallery h2 {
+-    text-align: center;
+-    color: #005b96;
++.instructions ul {
++    list-style-type: none;
++    padding: 0;
++    display: flex;
++    justify-content: center;
++    gap: 15px;
++    margin-top: 15px;
+ }
+ 
+-.gallery-container {
+-    display: grid;
+-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+-    gap: 15px;
+-    margin-top: 20px;
++.instructions li {
++    font-weight: bold;
+ }
+ 
+-.gallery-item {
+-    position: relative;
+-    overflow: hidden;
+-    border-radius: 8px;
+-    height: 200px;
+-    cursor: pointer;
++@media (max-width: 600px) {
++    #gameCanvas {
++        width: 300px;
++        height: 300px;
+ }
+ 
+-.gallery-item img {
+-    width: 100%;
+-    height: 100%;
+-    object-fit: cover;
++    .score-board {
++        width: 300px;
++    }
  }
 \ No newline at end of file

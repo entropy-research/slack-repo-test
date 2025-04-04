@@ -3,48 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fish Paradise</title>
+    <title>Snake Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="fish-container">
+    <div class="game-container">
         <header>
-            <h1>🐟 Fish Paradise 🐟</h1>
-            <p class="tagline">The ultimate destination for fish enthusiasts!</p>
+            <h1>🐍 Snake Game 🐍</h1>
+            <p class="tagline">Classic arcade game reimagined!</p>
         </header>
         
-        <section class="hero">
-            <div class="fish-image">
-                <img id="mainFish" src="https://images.unsplash.com/photo-1551986782-d0169b3f8fa7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Beautiful Fish">
+        <section class="game-area">
+            <div class="score-board">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div class="high-score">High Score: <span id="highScore">0</span></div>
             </div>
-            <div class="welcome-text">
-                <h2>Welcome to Fish Paradise!</h2>
-                <p>Discover the wonderful world of fish - from the majestic Whale Shark to the colorful Clownfish.</p>
-                <button id="fishBtn">Show Me More Fish!</button>
+            
+            <canvas id="gameCanvas" width="400" height="400"></canvas>
+            
+            <div class="controls">
+                <button id="startBtn">Start Game</button>
+                <button id="resetBtn">Reset Game</button>
             </div>
-        </section>
-        
-        <section class="fish-facts">
-            <h2>Amazing Fish Facts</h2>
-            <div class="facts-container">
-                <div class="fact-card">
-                    <h3>Whale Sharks</h3>
-                    <p>The largest fish species, growing up to 40 feet long and weighing up to 20 tons!</p>
-                </div>
-                <div class="fact-card">
-                    <h3>Fish Diet</h3>
-                    <p>Fish eat a variety of foods including algae, plants, and other fish, depending on their species.</p>
-                </div>
-                <div class="fact-card">
-                    <h3>Swimming Speed</h3>
-                    <p>Some fish can swim at speeds up to 68 mph, making them incredibly fast underwater!</p>
-                </div>
+            
+            <div class="instructions">
+                <h3>How to Play:</h3>
+                <p>Use the arrow keys to control the snake. Eat the food to grow longer and earn points. Avoid hitting the walls or yourself!</p>
+                <ul>
+                    <li>↑ - Move Up</li>
+                    <li>↓ - Move Down</li>
+                    <li>← - Move Left</li>
+                    <li>→ - Move Right</li>
+                </ul>
         </div>
         </section>
-        
-        <section class="fish-gallery">
-            <h2>Fish Gallery</h2>
-            <div class="gallery-container" id="fishGallery">
-                <!-- Fish images will be added here via JavaScript -->
-        </div>
-        </section>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
