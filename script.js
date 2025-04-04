@@ -207,23 +207,13 @@ function drawGame() {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Draw snake with arctic blue colors
+    // Draw snake as penguins
     for (let i = 0; i < snake.length; i++) {
-        // Gradient from light to darker blue for the snake body
         const segment = snake[i];
-        if (i === 0) {
-            // Head is slightly different color
-            ctx.fillStyle = '#1976D2'; // Darker blue for head
-        } else {
-            // Body segments alternate between two blue shades
-            ctx.fillStyle = i % 2 === 0 ? '#2196F3' : '#64B5F6';
-        }
+        const isHead = i === 0;
         
-        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
-        
-        // Add border to snake segments
-        ctx.strokeStyle = '#0D47A1'; // Dark blue border
-        ctx.strokeRect(segment.x, segment.y, gridSize, gridSize);
+        // Draw penguin for each segment
+        drawPenguin(segment.x, segment.y, gridSize, isHead);
     }
     
     // Draw food (arctic fish)
@@ -250,6 +240,85 @@ function drawSnowflake() {
     ctx.fillStyle = 'white';
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+// Draw a penguin at the specified coordinates
+function drawPenguin(x, y, size, isHead) {
+    // Center point of the cell
+    const centerX = x + size / 2;
+    const centerY = y + size / 2;
+    
+    // Scale factor (slightly smaller than the grid to have some padding)
+    const scale = size * 0.9;
+    
+    // Body (oval)
+    ctx.fillStyle = '#000000'; // Black for penguin body
+    ctx.beginPath();
+    ctx.ellipse(centerX, centerY, scale/2, scale/2.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // White belly
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.ellipse(centerX, centerY + scale/10, scale/3, scale/3, 0, 0, Math.PI * 2);
+    ctx.fill();
+    
+    if (isHead) {
+        // Eyes (only on head)
+        const eyeSize = scale/8;
+        
+        // Left eye
+        ctx.fillStyle = '#FFFFFF';
+        ctx.beginPath();
+        ctx.arc(centerX - scale/4, centerY - scale/8, eyeSize, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Left pupil
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.arc(centerX - scale/4, centerY - scale/8, eyeSize/2, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Right eye
+        ctx.fillStyle = '#FFFFFF';
+        ctx.beginPath();
+        ctx.arc(centerX + scale/4, centerY - scale/8, eyeSize, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Right pupil
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.arc(centerX + scale/4, centerY - scale/8, eyeSize/2, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Orange beak
+        ctx.fillStyle = '#FF9800';
+        ctx.beginPath();
+        ctx.moveTo(centerX - scale/6, centerY + scale/8);
+        ctx.lineTo(centerX + scale/6, centerY + scale/8);
+        ctx.lineTo(centerX, centerY + scale/4);
+        ctx.closePath();
+        ctx.fill();
+    }
+    
+    // Flippers (small triangles on the sides)
+    ctx.fillStyle = '#000000';
+    
+    // Left flipper
+    ctx.beginPath();
+    ctx.moveTo(centerX - scale/2, centerY);
+    ctx.lineTo(centerX - scale/1.5, centerY);
+    ctx.lineTo(centerX - scale/2, centerY + scale/4);
+    ctx.closePath();
+    ctx.fill();
+    
+    // Right flipper
+    ctx.beginPath();
+    ctx.moveTo(centerX + scale/2, centerY);
+    ctx.lineTo(centerX + scale/1.5, centerY);
+    ctx.lineTo(centerX + scale/2, centerY + scale/4);
+    ctx.closePath();
     ctx.fill();
 }
 
